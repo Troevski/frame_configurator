@@ -1,0 +1,19 @@
+.containerRegular {
+  position: absolute;
+  z-index: 1000;
+  overflow: hidden;
+}
+.containerRegular img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.horizontal {
+  transform: rotate(0deg);
+}
+
+.vertical {
+  transform: rotate(90deg);
+}

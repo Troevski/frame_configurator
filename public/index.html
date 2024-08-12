@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -24,20 +24,46 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Frame App</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <input type="hidden" value="1" id="is_frame_creator" />
+    <input type="hidden" value="8" id="frame_height" />
+    <input type="hidden" value="10" id="frame_width" />
+    <select
+      class="single-option-selector single-option-selector-product-template product-form__input"
+      id="SingleOptionSelector-0"
+      data-index="option1"
+    >
+      <option value="Regular Frame" selected="selected">Regular Frame</option>
+      <option value="Matted Frame">Matted Frame</option>
+      <option value="Floating Frame">Floating Frame</option>
+    </select>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <select
+      class="single-option-selector single-option-selector-product-template product-form__input"
+      id="SingleOptionSelector-1"
+      data-index="option2"
+    >
+      <option value="Lightwood Pine" selected="selected">Lightwood Pine</option>
+      <option value="Darkwood Pine">Darkwood Pine</option>
+      <option value="Barnwood Pine">Barnwood Pine</option>
+      <option value="White Pine">White Pine</option>
+      <option value="Black Pine">Black Pine</option>
+      <option value="Graphite Pine">Graphite Pine</option>
+      <option value="Classic Oak">Classic Oak</option>
+    </select>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+    <select
+      class="single-option-selector single-option-selector-product-template product-form__input"
+      id="frameModeSelect"
+      data-index="frameMode"
+    >
+      <option value="horizontal" selected="selected">horizontal</option>
+      <option value="vertical">vertical</option>
+    </select>
+    <button id="frame-editor-opener">Open Editor</button>
   </body>
 </html>

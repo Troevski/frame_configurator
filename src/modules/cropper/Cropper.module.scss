@@ -1,0 +1,61 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fefaf6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000000;
+}
+
+.modalContentCropperPhotopanel {
+  width: 85%;
+  height: 85%;
+  margin-bottom: 60px;
+}
+.tekstInfoPhotopanel {
+  position: fixed;
+  bottom: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.yellowSquare {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-color: rgb(255, 246, 0);
+  margin-right: 10px;
+}
+.containerWithButtonsCropPhotopanel {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.buttonCropPhotopanel1 {
+  cursor: pointer;
+  padding: 8px 25px;
+  background-color: #963248;
+  font-family: "OldStandardTT";
+  color: white;
+  border: none;
+  font-size: 14px;
+  margin-right: 10px;
+}
+.buttonCropPhotopanel2 {
+  cursor: pointer;
+  padding: 8px 25px;
+  background-color: #963248;
+  font-family: "OldStandardTT";
+  color: white;
+  border: none;
+  font-size: 14px;
+}
