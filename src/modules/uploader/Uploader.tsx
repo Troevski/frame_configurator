@@ -1,21 +1,28 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext } from "react";
 import { handleUpload } from "../../utils/handleUpload";
 import Button from "../../components/button/Button";
 import { maxSize5mb } from "./constantsUploader";
 import style from "./Uploader.module.scss";
-import { CropperModal } from "../cropper/CropperModal";
 import { getCorrectAspectRatio } from "../../utils/getDimensions";
 import { useCheckContext } from "../../hooks/useCheckContext";
 import { AppContext } from "../../context/context";
+import { LANGUAGE } from "../../constants/enums";
+import Image from "../../components/image/Image";
+import { Links } from "../../constants/links";
 
 interface UploaderProps {
   setImgUrl: (url: string) => void;
   selectedOptions: SelectedFrameOptions;
+  onUpload: () => void;
 }
 
-export const Uploader = ({ setImgUrl, selectedOptions }: UploaderProps) => {
+export const Uploader = ({
+  setImgUrl,
+  selectedOptions,
+  onUpload,
+}: UploaderProps) => {
   const context = useContext(AppContext);
-  const { frameSize, frameCmSize } = useCheckContext(context);
+  const { frameSize, setUploadedImgHandle } = useCheckContext(context);
 
   const onFileSelected = useCallback((file: any) => {
     if (file.size > maxSize5mb) {
@@ -26,10 +33,11 @@ export const Uploader = ({ setImgUrl, selectedOptions }: UploaderProps) => {
 
   const onUploadDone = useCallback(
     (res: any) => {
-      const uploadedFileURL = res.filesUploaded[0].url;
-      setImgUrl(uploadedFileURL);
+      const { url, handle } = res.filesUploaded[0];
+      setImgUrl(url);
+      setUploadedImgHandle(handle);
     },
-    [setImgUrl]
+    [setImgUrl, setUploadedImgHandle]
   );
 
   const handleUploadClick = useCallback(() => {
@@ -37,12 +45,13 @@ export const Uploader = ({ setImgUrl, selectedOptions }: UploaderProps) => {
 
     const currentImgRatio = getCorrectAspectRatio(
       frameSize,
-      selectedOptions.mode
+      selectedOptions.mode,
+      selectedOptions
     );
     handleUpload({
-      accept: "image/png",
+      accept: ["image/jpg", "image/jpeg"],
       maxSize: maxSize5mb,
-      lang: "pl",
+      lang: LANGUAGE.en,
       onUploadDone: onUploadDone,
       onFileSelected: onFileSelected,
       transformations: {
@@ -53,17 +62,24 @@ export const Uploader = ({ setImgUrl, selectedOptions }: UploaderProps) => {
         circle: false,
         rotate: false,
       },
-      imageCrop: true
-
+      imageCrop: true,
     });
-  }, [onUploadDone, onFileSelected, frameSize, selectedOptions.mode]);
-
+  }, [onUploadDone, onFileSelected, frameSize, selectedOptions]);
 
   return (
-      <Button
-        text="upload img"
-        onClick={handleUploadClick}
-        className={style.buttonUploader}
+    <div className={style.containerImgUpload} onClick={handleUploadClick}>
+      <Image
+        src={Links.iconImgUpload}
+        alt="addPhoto"
+        className={style.iconImgUpload}
       />
+      <Button
+        text="UPLOAD IMAGE"
+        className={style.buttonUploader}
+        isImgNeeded={true}
+        iconSrc={Links.iconBtnAdd}
+        iconClassName={style.iconClassName}
+      />
+    </div>
   );
 };

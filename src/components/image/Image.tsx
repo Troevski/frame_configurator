@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 
 interface ImageProps {
   src: string;
@@ -6,9 +6,10 @@ interface ImageProps {
   className?: string;
   height?: number;
   zIndex?: string;
+  style?: CSSProperties;
 }
 const Image = React.forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
-  const { src, alt, className, height, zIndex } = props;
+  const { src, alt, className, height, zIndex, style } = props;
   return (
     <img
       ref={ref}
@@ -16,7 +17,7 @@ const Image = React.forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
       alt={alt}
       className={className}
       height={height}
-      style={{ zIndex: zIndex, transform: className }}
+      style={{ zIndex: zIndex, transform: className, ...style }}
     />
   );
 });

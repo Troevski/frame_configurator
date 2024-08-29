@@ -1,14 +1,71 @@
-.buttonUploader {
+.containerImgUpload {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
   position: absolute;
-  top: 50%;
+  z-index: 200;
   left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 250;
-  border: none;
-  background-color: transparent;
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 18px;
   z-index: 10000;
   cursor: pointer;
+}
+
+.buttonUploader {
+  padding: 15px 35px;
+  border: none;
+  background-color: #3a5c5d;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: white;
+  font-size: 17px;
+  z-index: 10000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "futura_pt_medium";
+}
+.iconImgUpload {
+  max-width: 150px;
+  max-height: 150px;
+  height: auto;
+  width: auto;
+  opacity: 0.2;
+}
+.iconClassName {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%)
+    hue-rotate(316deg) brightness(105%) contrast(102%);
+}
+
+@media screen and (max-width: 700px) {
+  .buttonUploader {
+    padding: 10px 23px;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+  .iconImgUpload {
+    max-width: 105px;
+    max-height: 105px;
+  }
+  .iconClassName {
+    height: 22px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .buttonUploader {
+    padding: 5px 15px;
+    white-space: nowrap;
+    font-size: 10px;
+  }
+  .iconImgUpload {
+    max-width: 95px;
+    max-height: 95px;
+  }
+  .iconClassName {
+    height: 18px;
+  }
 }

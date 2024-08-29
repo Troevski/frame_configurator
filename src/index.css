@@ -1,4 +1,19 @@
-body {
+/* body {
   padding: 0;
   margin: 0;
+  font-family: "futura_pt_medium";
+} */
+
+@font-face {
+  font-display: swap;
+  font-family: futura_pt_medium;
+  font-style: normal;
+  font-weight: 500;
+  src:
+    url("https://shop.qtalbums.com/cdn/shop/t/31/assets/FuturaPT-Medium.woff2")
+      format("woff2"),
+    url("https://shop.qtalbums.com/cdn/shop/t/31/assets/FuturaPT-Medium.woff")
+      format("woff"),
+    url("https://shop.qtalbums.com/cdn/shop/t/31/assets/FuturaPT-Medium.ttf")
+      format("truetype");
 }

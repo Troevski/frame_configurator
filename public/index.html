@@ -28,8 +28,15 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="frame-root"></div>
+
     <input type="hidden" value="1" id="is_frame_creator" />
+    <input
+      type="hidden"
+      value=""
+      id="frame_creator_file"
+      name="properties[_frameFiles]"
+    />
     <input type="hidden" value="8" id="frame_height" />
     <input type="hidden" value="10" id="frame_width" />
     <select
@@ -56,14 +63,29 @@
       <option value="Classic Oak">Classic Oak</option>
     </select>
 
-    <select
+    <!-- <select
       class="single-option-selector single-option-selector-product-template product-form__input"
       id="frameModeSelect"
       data-index="frameMode"
     >
       <option value="horizontal" selected="selected">horizontal</option>
       <option value="vertical">vertical</option>
+    </select> -->
+
+    <select
+      class="single-option-selector single-option-selector-product-template product-form__input"
+      id="select_orientation"
+      data-index="frameMode"
+    >
+      <option value="horizontal" selected="selected">Horizontal</option>
+      <option value="vertical">Vertical</option>
     </select>
-    <button id="frame-editor-opener">Open Editor</button>
+    <button id="frame-creator-show-btn">Open Editor</button>
+
+    <div class="product-form__item">
+      <div id="frame-preview" style="display: none">
+        <p><strong>Frame preview:</strong></p>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,3 +1,4 @@
+import { sourcesToUpload } from "../constants/global";
 import { client } from "../modules/uploader/constantsUploader";
 
 export const handleUpload = ({
@@ -9,6 +10,7 @@ export const handleUpload = ({
   onFileSelected,
 }: any) => {
   const options = {
+    fromSources: sourcesToUpload,
     accept,
     maxSize,
     lang,

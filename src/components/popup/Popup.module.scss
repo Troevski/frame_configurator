@@ -35,6 +35,9 @@
     width: 100%;
     flex-direction: column;
   }
+  .titileCloseModal {
+    color: black;
+  }
   .crossExit {
     cursor: pointer;
     height: 20px;
@@ -63,7 +66,7 @@
     transform: translate(-50%, -50%) rotate(-45deg);
   }
   .lineBottom {
-    background-color: #b17645;
+    background-color: #3A5C5D;
     content: "";
     display: flex;
     height: 1px;

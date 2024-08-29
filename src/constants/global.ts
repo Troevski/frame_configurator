@@ -12,7 +12,7 @@ export const configuratorSizes: ConfiguratorSizes = {
       },
       float: {
         windowSize: null,
-        photoSize: null,
+        photoSize: { height: 0, width: 0 },
       },
     },
   },
@@ -20,7 +20,7 @@ export const configuratorSizes: ConfiguratorSizes = {
     frameSize: { height: 250, width: 300 },
     sizes: {
       regular: {
-        windowSize: { height: 192, width: 242 }, // save frame.   29 - 4 = 25 /10 * cm; save btn = записываем токен фотки в инпут с айди как в фолио
+        windowSize: { height: 192, width: 242 },
         photoSize: { height: 200, width: 250 },
       },
       matted: {
@@ -46,7 +46,7 @@ export const configuratorSizes: ConfiguratorSizes = {
       },
       float: {
         windowSize: null,
-        photoSize: null,
+        photoSize: { height: 0, width: 0 },
       },
     },
   },
@@ -166,3 +166,5 @@ export const framesMapperSrc: Record<string, string> = {
   "Matted Frame": "matted",
   "Floating Frame": "floating",
 };
+
+export const sourcesToUpload = ["local_file_system", "dropbox", "googledrive"];

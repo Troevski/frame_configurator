@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import style from "./Modal.module.scss";
 import Header from "../header/Header";
 import FrameWorkArea from "./frameWorkArea/FrameWorkArea";
@@ -9,11 +9,19 @@ interface ModalProps {
 }
 
 const Modal = ({ setIsConfiguratorOpen, selectedOptions }: ModalProps) => {
+  const mainContainerRef = useRef<HTMLImageElement>(null);
+
   return (
     <div className={style.containerModal}>
       <div className={style.wrapperModal}>
-        <Header setIsConfiguratorOpen={setIsConfiguratorOpen} />
-        <FrameWorkArea selectedOptions={selectedOptions} />
+        <Header
+          setIsConfiguratorOpen={setIsConfiguratorOpen}
+          mainContainerRef={mainContainerRef}
+        />
+        <FrameWorkArea
+          selectedOptions={selectedOptions}
+          mainContainerRef={mainContainerRef}
+        />
       </div>
     </div>
   );

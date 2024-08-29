@@ -18,7 +18,7 @@ interface Sizes {
   };
   float: {
     windowSize: Size | null;
-    photoSize: Size | null;
+    photoSize: Size;
   };
 }
 
@@ -42,4 +42,21 @@ interface SelectedFrameOptions {
 interface ColorSrcFrameFromInputs {
   srcHeight: string;
   srcWidth: string;
+}
+
+interface DimensionsWindow {
+  widthWindow: number;
+  heightWindow: number;
+  heightPhoto: number;
+  widthPhoto: number;
+}
+
+interface FloatDimensions {
+  widthPhoto: number;
+  heightPhoto: number;
+}
+
+interface SquareDimensionsInt {
+  width: number;
+  height: number;
 }

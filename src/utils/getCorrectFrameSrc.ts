@@ -1,5 +1,5 @@
 import { framesMapperSrc } from "../constants/global";
-import { FRAME_MODE, IMG_TYPE, TYPE_FRAME } from "../types/enums";
+import { IMG_TYPE, TYPE_FRAME } from "../constants/enums";
 
 interface VariablesForSrcTypes {
   selectedOptions: SelectedFrameOptions;
@@ -11,7 +11,7 @@ export const getFrameLink = (
   name: string,
   imgType: string
 ) =>
-  `https://snapalbums.pl/apps/shpfsnapalbums/frames/${frameSize}_${name}.${imgType}`;
+  `https://shop.qtalbums.com/apps/shpfqt/frames/${frameSize}_${name}.${imgType}`;
 
 export const getColorFrameSrc = ({
   selectedOptions,
@@ -23,8 +23,9 @@ export const getColorFrameSrc = ({
     selectedOptions.typeFrame === TYPE_FRAME.MATTED_FRAME
       ? IMG_TYPE.PNG
       : IMG_TYPE.JPG;
+
   const frameColorSrc = getFrameLink(frameSize, frameColorName, IMG_TYPE.JPG);
   const frameTypeSrc = getFrameLink(frameSize, frameTypeName, frameImgType);
-
+  console.log("frameTypeSrc", frameTypeSrc);
   return { frameColorSrc, frameTypeSrc };
 };

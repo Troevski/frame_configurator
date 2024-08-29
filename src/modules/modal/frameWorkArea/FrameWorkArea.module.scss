@@ -7,16 +7,18 @@
   width: auto;
   height: auto;
 }
-
 .workSquareArea {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 800px;
-  width: 800px;
+  max-width: 1600;
+  max-height: 1600;
 }
 .containerWithMainImgs {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .frame {
   transition: transform 0.3s ease;
@@ -25,10 +27,20 @@
   max-width: 100%;
   position: relative;
 }
+
 .frame.horizontal {
   transform: rotate(0deg);
 }
 
 .frame.vertical {
   transform: rotate(90deg);
+}
+
+.containerWindow {
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }

@@ -22,13 +22,13 @@ const Popup = ({
       <div className={style.wrapperPopup}>
         <div className={style.contentPopup}>
           <div className={style.containerCloseModal}>
-            <span>{titleCloseModal}</span>
+            <span className={style.titileCloseModal}>{titleCloseModal}</span>
             <span onClick={onClosePopup} className={style.crossExit}></span>
             <span className={style.lineBottom}></span>
           </div>
           {children}
           <Button
-            text="Close configurator"
+            text="CLOSE CREATOR"
             onClick={onCloseModal}
             className={buttonClassName}
           />
