@@ -50,6 +50,7 @@ function App() {
   useEffect(() => {
     console.log(selectedOptions);
   }, [selectedOptions]);
+
   return (
     <AppContext.Provider
       value={{

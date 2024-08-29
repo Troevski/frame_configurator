@@ -1,6 +1,9 @@
 import { configuratorSizes } from "../constants/global";
 import { FRAME_MODE, TYPE_FRAME } from "../constants/enums";
 
+export const getFrameCorrectDimenssions = (frameKey: string) =>
+  configuratorSizes[frameKey];
+
 export const calculateOneCm = (frame: number, containerWidth: number) => {
   const oneCM = containerWidth / (frame * 2.5);
   return { oneCM };
@@ -132,15 +135,12 @@ export const getFloatDimensions = (
     configuratorSizes[frameKey].sizes.float.photoSize;
 
   if (mode === FRAME_MODE.HORIZONTAL) {
-    console.log("1232131");
     setDimensionsFloat((prev) => ({
       ...prev,
       widthPhoto: photoWidth * scale,
       heightPhoto: photoHeight * scale,
     }));
   } else {
-    console.log("asgasgasg");
-
     setDimensionsFloat((prev) => ({
       ...prev,
       widthPhoto: photoHeight * scale,

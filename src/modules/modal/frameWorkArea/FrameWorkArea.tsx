@@ -107,7 +107,7 @@ const FrameWorkArea = ({
               <Uploader
                 setImgUrl={setImgUploaded}
                 selectedOptions={selectedOptions}
-                onUpload={() => console.log("sda")}
+                squareDimensions={squareDimensions}
               />
             )}
             <div

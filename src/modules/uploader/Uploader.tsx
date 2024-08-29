@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { handleUpload } from "../../utils/handleUpload";
 import Button from "../../components/button/Button";
 import { maxSize5mb } from "./constantsUploader";
@@ -9,35 +9,40 @@ import { AppContext } from "../../context/context";
 import { LANGUAGE } from "../../constants/enums";
 import Image from "../../components/image/Image";
 import { Links } from "../../constants/links";
+import CropperModal from "../cropper/CropperModal";
 
 interface UploaderProps {
   setImgUrl: (url: string) => void;
   selectedOptions: SelectedFrameOptions;
-  onUpload: () => void;
+  squareDimensions: SquareDimensionsInt;
 }
 
 export const Uploader = ({
   setImgUrl,
   selectedOptions,
-  onUpload,
+  squareDimensions,
 }: UploaderProps) => {
-  const context = useContext(AppContext);
-  const { frameSize, setUploadedImgHandle } = useCheckContext(context);
+  const [isCropperModalOpen, setIsCropperModalOpen] = useState(false);
 
+  const context = useContext(AppContext);
+  const { frameSize, setUploadedImgHandle, uploadedImgHandle } =
+    useCheckContext(context);
+  const [uploadedUrlImg, setUploadedUrlImg] = useState("");
   const onFileSelected = useCallback((file: any) => {
     if (file.size > maxSize5mb) {
       alert("Maksymalny rozmiar pliku: 5MB");
     }
     return true;
   }, []);
-
   const onUploadDone = useCallback(
     (res: any) => {
+      setIsCropperModalOpen(true);
       const { url, handle } = res.filesUploaded[0];
-      setImgUrl(url);
+
+      setUploadedUrlImg(url);
       setUploadedImgHandle(handle);
     },
-    [setImgUrl, setUploadedImgHandle]
+    [setUploadedImgHandle]
   );
 
   const handleUploadClick = useCallback(() => {
@@ -67,19 +72,32 @@ export const Uploader = ({
   }, [onUploadDone, onFileSelected, frameSize, selectedOptions]);
 
   return (
-    <div className={style.containerImgUpload} onClick={handleUploadClick}>
-      <Image
-        src={Links.iconImgUpload}
-        alt="addPhoto"
-        className={style.iconImgUpload}
-      />
-      <Button
-        text="UPLOAD IMAGE"
-        className={style.buttonUploader}
-        isImgNeeded={true}
-        iconSrc={Links.iconBtnAdd}
-        iconClassName={style.iconClassName}
-      />
-    </div>
+    <>
+      <div className={style.containerImgUpload} onClick={handleUploadClick}>
+        <Image
+          src={Links.iconImgUpload}
+          alt="addPhoto"
+          className={style.iconImgUpload}
+        />
+        <Button
+          text="UPLOAD IMAGE"
+          className={style.buttonUploader}
+          isImgNeeded={true}
+          iconSrc={Links.iconBtnAdd}
+          iconClassName={style.iconClassName}
+        />
+      </div>
+      {isCropperModalOpen && (
+        <CropperModal
+          setIsCropperModalOpen={setIsCropperModalOpen}
+          setCroppedImgUrl={setImgUrl}
+          squareDimensions={squareDimensions}
+          selectedOptions={selectedOptions}
+          imgUrlUploaded={uploadedUrlImg}
+          handlePhoto={uploadedImgHandle}
+          handleUploadPickerAgain={handleUploadClick}
+        />
+      )}
+    </>
   );
 };
