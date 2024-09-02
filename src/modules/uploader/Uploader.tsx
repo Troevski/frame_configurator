@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useState } from "react";
 import { handleUpload } from "../../utils/handleUpload";
 import Button from "../../components/button/Button";
-import { maxSize5mb } from "./constantsUploader";
+import { maxSize20mb } from "./constantsUploader";
 import style from "./Uploader.module.scss";
 import { getCorrectAspectRatio } from "../../utils/getDimensions";
 import { useCheckContext } from "../../hooks/useCheckContext";
@@ -29,8 +29,8 @@ export const Uploader = ({
     useCheckContext(context);
   const [uploadedUrlImg, setUploadedUrlImg] = useState("");
   const onFileSelected = useCallback((file: any) => {
-    if (file.size > maxSize5mb) {
-      alert("Maksymalny rozmiar pliku: 5MB");
+    if (file.size > maxSize20mb) {
+      alert("Maksymalny rozmiar pliku: 20MB");
     }
     return true;
   }, []);
@@ -48,28 +48,25 @@ export const Uploader = ({
   const handleUploadClick = useCallback(() => {
     if (!selectedOptions.mode) return;
 
-    const currentImgRatio = getCorrectAspectRatio(
-      frameSize,
-      selectedOptions.mode,
-      selectedOptions
-    );
+    // const currentImgRatio = getCorrectAspectRatio(
+    //   frameSize,
+    //   selectedOptions.mode,
+    //   selectedOptions
+    // );
     handleUpload({
       accept: ["image/jpg", "image/jpeg"],
-      maxSize: maxSize5mb,
+      maxSize: maxSize20mb,
       lang: LANGUAGE.en,
       onUploadDone: onUploadDone,
       onFileSelected: onFileSelected,
       transformations: {
-        crop: {
-          aspectRatio: currentImgRatio,
-          force: true,
-        },
+        crop: false,
         circle: false,
         rotate: false,
       },
       imageCrop: true,
     });
-  }, [onUploadDone, onFileSelected, frameSize, selectedOptions]);
+  }, [onUploadDone, onFileSelected, selectedOptions]);
 
   return (
     <>

@@ -6,13 +6,23 @@ import React, {
   useState,
 } from "react";
 import style from "./Cropper.module.scss";
-import { getFrameScale } from "../../utils/getDimensions";
+import {
+  getCorrectAspectRatio,
+  getFrameScale,
+} from "../../utils/getDimensions";
 import { AppContext } from "../../context/context";
 import { useCheckContext } from "../../hooks/useCheckContext";
-import { getInfoToChooseFrameSize } from "../../utils/cropperHelpers";
+import {
+  computeBorderWidth,
+  createYellowBorders,
+  getInfoToChooseFrameSize,
+  updateDpiColor,
+} from "../../utils/cropperHelpers";
 import Cropper from "cropperjs";
 import Button from "../../components/button/Button";
 import "cropperjs/dist/cropper.css";
+import { colorTextMapping } from "../../constants/global";
+import { DPI_COLORS, FRAME_MODE } from "../../constants/enums";
 
 interface CropperProps {
   setIsCropperModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,7 +36,6 @@ interface CropperProps {
 
 export const CropperModal = ({
   setIsCropperModalOpen,
-
   squareDimensions,
   selectedOptions,
   imgUrlUploaded,
@@ -38,59 +47,16 @@ export const CropperModal = ({
   const { frameSize } = useCheckContext(context);
 
   const [isLoading, setIsLoading] = useState(false);
-
+  const oneMMInPx = getFrameScale(frameSize, squareDimensions.height);
   const imgRefCropper = useRef<HTMLImageElement>(null);
   const [cropperInstance, setCropperInstance] = useState<Cropper | null>(null);
-  const scale = getFrameScale(frameSize, squareDimensions.width);
-
-  const computeBorderWidth = (cropper: any) => {
-    const frameSizes = getInfoToChooseFrameSize(
-      frameSize,
-      selectedOptions.typeFrame
-    );
-
-    const cropBoxData = cropper.getCropBoxData();
-
-    const widthJSONData = frameSizes.photoSize.width * scale;
-    const widthCropperDom = cropBoxData.width;
-
-    const ratio = widthCropperDom / widthJSONData;
-    return ratio * scale;
-  };
-
-  const createYellowBorders = (cropper: any) => {
-    const borderWidth = computeBorderWidth(cropper);
-    const cropBoxElement = document.querySelector(".cropper-crop-box");
-
-    if (cropBoxElement) {
-      const createBorderElement = (width: number) => {
-        const div = document.createElement("div");
-        div.className = "customBorder";
-        Object.assign(div.style, {
-          position: "absolute",
-          top: "0",
-          left: "0",
-          right: "0",
-          bottom: "0",
-          pointerEvents: "none",
-          borderRight: `${width}px solid #fff600`,
-          borderLeft: `${width}px solid #fff600`,
-          borderTop: `${width}px solid #fff600`,
-          borderBottom: `${width}px solid #fff600`,
-          opacity: "0.3",
-        });
-        return div;
-      };
-
-      cropBoxElement.appendChild(createBorderElement(borderWidth));
-    }
-  };
+  const [dpiColor, setDpiColor] = useState<DPI_COLORS | null>(null);
 
   useEffect(() => {
-    console.log("Initializing Cropper");
-    const frameSizes = getInfoToChooseFrameSize(
+    const currentImgRatio = getCorrectAspectRatio(
       frameSize,
-      selectedOptions.typeFrame
+      selectedOptions.mode!,
+      selectedOptions
     );
 
     if (imgUrlUploaded && imgRefCropper.current) {
@@ -105,17 +71,55 @@ export const CropperModal = ({
         zoomOnTouch: false,
         modal: false,
         autoCropArea: 1,
-        aspectRatio: frameSizes.photoSize.width / frameSizes.photoSize.height,
+        aspectRatio: currentImgRatio,
+        cropmove: () => {
+          const { naturalHeight, naturalWidth } = cropper.getImageData();
+          const cropperCanvas = cropper.getCanvasData();
+          const scale =
+            selectedOptions.mode === FRAME_MODE.HORIZONTAL
+              ? naturalWidth / cropperCanvas.width
+              : naturalHeight / cropperCanvas.height;
 
+          updateDpiColor(
+            cropper,
+            scale,
+            selectedOptions,
+            setDpiColor,
+            frameSize
+          );
+        },
         ready: function () {
-          createYellowBorders(cropper);
+          const { naturalHeight, naturalWidth } = cropper.getImageData();
+          const cropperCanvas = cropper.getCanvasData();
+
+          const scale =
+            selectedOptions.mode === FRAME_MODE.HORIZONTAL
+              ? naturalWidth / cropperCanvas.width
+              : naturalHeight / cropperCanvas.height;
+          createYellowBorders(
+            cropper,
+            computeBorderWidth,
+            frameSize,
+            selectedOptions
+          );
           setCropperInstance(cropper);
+          updateDpiColor(
+            cropper,
+            scale,
+            selectedOptions,
+            setDpiColor,
+            frameSize
+          );
           setIsLoading(false);
         },
       });
 
       const handleCropMove = () => {
-        const borderWidth = computeBorderWidth(cropper);
+        const borderWidth = computeBorderWidth(
+          cropper,
+          frameSize,
+          selectedOptions
+        );
         const customBorder = document.querySelector(
           ".customBorder"
         ) as HTMLDivElement;
@@ -126,7 +130,6 @@ export const CropperModal = ({
           customBorder.style.borderLeftWidth = `${borderWidth}px`;
         }
       };
-
       imageElement.addEventListener("cropmove", handleCropMove);
 
       return () => {
@@ -136,7 +139,7 @@ export const CropperModal = ({
         cropper.destroy();
       };
     }
-  }, [imgUrlUploaded, frameSize, selectedOptions.typeFrame, scale]);
+  }, [imgUrlUploaded, frameSize, selectedOptions, oneMMInPx]);
 
   const handleCropInPhotopanelCropper = useCallback(() => {
     const frameSizes = getInfoToChooseFrameSize(
@@ -146,8 +149,8 @@ export const CropperModal = ({
     if (cropperInstance) {
       let cropData = cropperInstance.getData();
 
-      const requiredWidth = frameSizes.photoSize.width * scale;
-      const requiredHeight = frameSizes.photoSize.height * scale;
+      const requiredWidth = frameSizes.photoSize.width * oneMMInPx;
+      const requiredHeight = frameSizes.photoSize.height * oneMMInPx;
 
       if (cropData.width < requiredWidth || cropData.height < requiredHeight) {
         const isConfirmed = window.confirm(
@@ -196,13 +199,19 @@ export const CropperModal = ({
     frameSize,
     handlePhoto,
     selectedOptions.typeFrame,
-    scale,
+    oneMMInPx,
     cropperInstance,
   ]);
 
   return (
-    <div className={style.modalOverlay}>
-      <div className={style.modalContentCropperPhotopanel}>
+    <div className={style.modalOverlayCropperFrame}>
+      {isLoading ? (
+        <div className={style.preloader}>
+          <div className={style.loader}></div>
+        </div>
+      ) : null}
+
+      <div className={style.modalContentCropperFrame}>
         <img
           ref={imgRefCropper}
           src={imgUrlUploaded}
@@ -211,29 +220,30 @@ export const CropperModal = ({
           className={style.hiddenImgForCropper}
         />
       </div>
-      {isLoading ? (
-        <div className={style.preloader}>
-          <div className={style.loader}></div>
-        </div>
-      ) : null}
 
       <div className={style.containerContent}>
-        <div className={style.tekstInfoPhotopanel}>
+        <div className={style.dpiInformContainer}>
+          <span
+            className={style.squareDpi}
+            style={{ background: dpiColor || "black" }}
+          ></span>
+          <span>{dpiColor && colorTextMapping[dpiColor]}</span>
+        </div>
+        <div className={style.tekstInfoFrame}>
           <span className={style.yellowSquare}></span>
-          <span style={{ fontSize: "13px" }}>
+          <span>
             The area in this color includes the part of the print that will be
             invisible - it will be wrapped around the cover.
           </span>
         </div>
-
-        <div className={style.containerWithButtonsCropPhotopanel}>
+        <div className={style.containerBtnsCropperFrame}>
           <Button
-            className={style.buttonCropPhotopanel1}
+            className={style.buttonFrameCropper}
             onClick={() => setIsCropperModalOpen(false)}
             text="Cancel"
           />
           <Button
-            className={style.buttonCropPhotopanel1}
+            className={style.buttonFrameCropper}
             onClick={handleCropInPhotopanelCropper}
             text="Crop"
           />

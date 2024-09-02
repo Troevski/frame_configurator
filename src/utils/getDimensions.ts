@@ -1,7 +1,7 @@
 import { configuratorSizes } from "../constants/global";
 import { FRAME_MODE, TYPE_FRAME } from "../constants/enums";
 
-export const getFrameCorrectDimenssions = (frameKey: string) =>
+export const getFrameDataDimenssions = (frameKey: string) =>
   configuratorSizes[frameKey];
 
 export const calculateOneCm = (frame: number, containerWidth: number) => {

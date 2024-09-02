@@ -24,3 +24,9 @@ export enum LANGUAGE {
   pl = "pl",
   en = "en",
 }
+
+export enum DPI_COLORS {
+  Green = "green",
+  Yellow = "yellow",
+  Red = "red",
+}

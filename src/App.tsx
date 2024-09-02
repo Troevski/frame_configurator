@@ -24,6 +24,7 @@ function App() {
       srcWidth: "",
     });
 
+  console.log(selectedOptions.mode);
   useGetFrameOptions({
     setSelectedOptions,
     selectedOptions,

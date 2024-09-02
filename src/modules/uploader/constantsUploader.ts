@@ -1,4 +1,4 @@
-import { init } from 'filestack-js';
+import { init } from "filestack-js";
 
-export const client = init('AbkDGv2FYSHi0mxqhYMgQz');
-export const maxSize5mb = 5 * 1024 * 1024;
+export const client = init("AbkDGv2FYSHi0mxqhYMgQz");
+export const maxSize20mb = 20 * 1024 * 1024;

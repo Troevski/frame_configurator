@@ -1,3 +1,5 @@
+import { DPI_COLORS } from "./enums";
+
 export const configuratorSizes: ConfiguratorSizes = {
   "5x7": {
     frameSize: { height: 180, width: 230 },
@@ -168,3 +170,9 @@ export const framesMapperSrc: Record<string, string> = {
 };
 
 export const sourcesToUpload = ["local_file_system", "dropbox", "googledrive"];
+
+export const colorTextMapping = {
+  [DPI_COLORS.Green]: "The photo quality is high enough for printing.",
+  [DPI_COLORS.Yellow]: "The photo quality is acceptable, but not perfect.",
+  [DPI_COLORS.Red]: "The photo quality is too low for good print quality.",
+};
