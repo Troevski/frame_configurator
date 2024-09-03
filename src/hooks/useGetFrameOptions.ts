@@ -49,7 +49,7 @@ export const useGetFrameOptions = ({
     }
   }, [setSelectedOptions, selectedOptions.mode]);
 
-  // disable floating
+  // disable floating size
   useEffect(() => {
     const option1 = getDocumentId(
       "SingleOptionSelector-0"

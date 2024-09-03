@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useState } from "react";
 import { handleUpload } from "../../utils/handleUpload";
 import Button from "../../components/button/Button";
-import { maxSize20mb } from "./constantsUploader";
+import { maxSize20mb } from "../../constants/uploader";
 import style from "./Uploader.module.scss";
 import { getCorrectAspectRatio } from "../../utils/getDimensions";
 import { useCheckContext } from "../../hooks/useCheckContext";
@@ -48,11 +48,6 @@ export const Uploader = ({
   const handleUploadClick = useCallback(() => {
     if (!selectedOptions.mode) return;
 
-    // const currentImgRatio = getCorrectAspectRatio(
-    //   frameSize,
-    //   selectedOptions.mode,
-    //   selectedOptions
-    // );
     handleUpload({
       accept: ["image/jpg", "image/jpeg"],
       maxSize: maxSize20mb,

@@ -49,8 +49,6 @@ export const getCorrectAspectRatio = (
   return finalRatio;
 };
 
-////// новый функционал
-
 export const getFrameScale = (frameKey: string, frameSize: number) => {
   const frameConfig = configuratorSizes[frameKey];
   const { width } = frameConfig.frameSize;

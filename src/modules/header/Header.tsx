@@ -9,6 +9,7 @@ import { useCheckContext } from "../../hooks/useCheckContext";
 import { manageTokenInput } from "../../utils/clearTokenInput";
 import { captureScreen } from "../../utils/captureScreen";
 import { Links } from "../../constants/links";
+import useCloseEscModal from "../../hooks/useCloseEscModal";
 
 interface HeaderProps {
   setIsConfiguratorOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,6 +31,8 @@ const Header = ({ setIsConfiguratorOpen, mainContainerRef }: HeaderProps) => {
   const onCloseModal = useCallback(() => {
     setIsConfiguratorOpen(false);
   }, [uploadedImgHandle]);
+
+  useCloseEscModal(setIsPopupVisable);
 
   const handleCloseClick = () => setIsPopupVisable(!isPopupVisable);
   const handleCloseExitModal = useCallback(() => setIsPopupVisable(false), []);

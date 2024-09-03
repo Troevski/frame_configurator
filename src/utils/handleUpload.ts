@@ -1,5 +1,5 @@
 import { sourcesToUpload } from "../constants/global";
-import { client } from "../modules/uploader/constantsUploader";
+import { client } from "../constants/uploader";
 
 export const handleUpload = ({
   accept,

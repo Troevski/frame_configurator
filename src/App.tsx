@@ -24,7 +24,6 @@ function App() {
       srcWidth: "",
     });
 
-  console.log(selectedOptions.mode);
   useGetFrameOptions({
     setSelectedOptions,
     selectedOptions,
@@ -47,10 +46,6 @@ function App() {
 
     return () => btnOpener?.removeEventListener("click", handleClick);
   }, []);
-
-  useEffect(() => {
-    console.log(selectedOptions);
-  }, [selectedOptions]);
 
   return (
     <AppContext.Provider

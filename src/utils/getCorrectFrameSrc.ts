@@ -26,6 +26,6 @@ export const getColorFrameSrc = ({
 
   const frameColorSrc = getFrameLink(frameSize, frameColorName, IMG_TYPE.JPG);
   const frameTypeSrc = getFrameLink(frameSize, frameTypeName, frameImgType);
-  console.log("frameTypeSrc", frameTypeSrc);
+
   return { frameColorSrc, frameTypeSrc };
 };
